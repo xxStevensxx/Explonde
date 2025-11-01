@@ -1,46 +1,42 @@
 using System;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Obstacles : MonoBehaviour
 {
 
-    [SerializeField] private GameObject Obstacle;
-    [SerializeField] private GameObject Onde;
+    public static event Action<int> CheckCollider;
 
-
-    public void OnEnable()
-    {
-        MusiqueManager.OnBeat += SpawnObstacle;
-    }
-
-
-    public void OnDisable()
-    {
-        MusiqueManager.OnBeat -= SpawnObstacle; 
-    }
-
-    void SpawnObstacle()
-    {
-        //TODO
-        Debug.Log("Spawn Obstacle called");
-    }
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.CompareTag("Player"))
+        //Debug.Log("Collision with Player detected!");   
+        if (other.CompareTag("Onde"))
         {
-            Debug.Log("Collision with Player detected!");
             CheckColorCollision(other);
         }
     }
 
-
     void CheckColorCollision(Collider other)
     {
-        if (Onde.GetComponent<Renderer>().material.color != Obstacle.GetComponent<Renderer>().material.color)
+        if (GetComponent<Renderer>().material.color != other.GetComponent<Renderer>().material.color)
         {
             Debug.Log("Game Over - Color Mismatch");
-            //StopGame();
+            StopGame();
+            //Destroy(other);
         }
+        else 
+        {
+            Debug.Log("Good");
+            CheckCollider?.Invoke(1);
+            //Destroy(other);
+        }
+
     }
+
+    void StopGame()
+    {
+        SceneManager.LoadScene("GameOver");
+    }
+
 }

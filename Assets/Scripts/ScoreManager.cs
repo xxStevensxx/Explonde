@@ -4,8 +4,24 @@ using UnityEngine;
 public class ScoreManager : MonoBehaviour
 {
 
-    private int score = 0;
     [SerializeField]private TextMeshProUGUI scoreText;
+
+    private int score = 0;
+
+    private void Update()
+    {
+        DisplayScore();
+    }
+
+    private void OnEnable()
+    {
+        Obstacles.CheckCollider += AddScore;
+    }
+
+    private void OnDisable()
+    {
+        Obstacles.CheckCollider -= AddScore;
+    }
 
     void AddScore(int value)
     {

@@ -9,7 +9,7 @@ public class SphereController : MonoBehaviour
 
     private float CurrentSpeed;
     private Renderer sphereRenderer;
-    private Color[] Colors = { Color.red, Color.green, Color.blue };
+    public Color[] Colors = { Color.red, Color.green, Color.blue };
     private int colorIndex = 0;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -68,21 +68,4 @@ public class SphereController : MonoBehaviour
 
     }
 
-    private void SpawnSphere()
-    {
-        for (int lp = 0; lp < LifePoints.Length; lp++) 
-        {
-            if (LifePoints[lp] == 1)
-            {
-
-                Instantiate(this.gameObject, new Vector3(0, 5, 0), Quaternion.identity);
-
-            }
-            else 
-            {
-                Destroy(this.gameObject);
-            }
-
-        }
-    }
 }

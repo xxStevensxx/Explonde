@@ -4,7 +4,7 @@ using UnityEngine;
 public class MusiqueManager : MonoBehaviour
 {
     [SerializeField]private AudioSource MusicSource;
-    [SerializeField] private float BPM = 90.80f;
+    [SerializeField] private float BPM = 42.80f;
 
     private float beatInterval;
     private float nextBeatTime;
@@ -25,20 +25,20 @@ public class MusiqueManager : MonoBehaviour
 
     void InitMusic() 
     {
+        MusicSource.Play();
         beatInterval = 60f / BPM;
         nextBeatTime = MusicSource.time + beatInterval;
-        MusicSource.Play();
 
     }
 
     // Check if it's time for the next beat
     void CheckIfItTimeForTheNxtBeat()
     {
-        if (MusicSource.isPlaying && MusicSource.time > nextBeatTime)
+        if (MusicSource.isPlaying && MusicSource.time >= nextBeatTime)
         {
-            Debug.Log("Beat Triggered at time: " + MusicSource.time);
             OnBeat?.Invoke();
             nextBeatTime += beatInterval;
+            //Debug.Log("Beat Triggered at time: " + MusicSource.time);
         }
     }
 }

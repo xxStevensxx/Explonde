@@ -9,9 +9,18 @@ public class ElectronicBoardManagement : MonoBehaviour
 
     private GameObject[] electronicBoardOnScene;
 
+    //getters 
     private GameObject[][] LinesEBoard;
-    private GameObject[] LineParents;
+    public GameObject[][] linesEBoard => LinesEBoard;
+
     private bool[] LinesIActive;
+    public bool[] linesIActive => LinesIActive;
+
+    private GameObject[] LineParents;
+    public GameObject[] lineParents => LineParents;
+
+    //********
+
     private int LineEBordMax = 3;
 
 
@@ -59,7 +68,7 @@ public class ElectronicBoardManagement : MonoBehaviour
         // Activate the first line for demonstration
         LinesIActive[0] = true;
         LinesIActive[1] = false;
-        LinesIActive[2] = false;
+        LinesIActive[2] = true;
         electronicBoardOnScene = new GameObject[electronicBoardPrefab.Length];
     }
 
@@ -100,14 +109,14 @@ public class ElectronicBoardManagement : MonoBehaviour
             {
                 GameObject board = LinesEBoard[line][eBoard];
 
+                    // Create a new random board at the end
+                    int rnd = Random.Range(0, electronicBoardPrefab.Length);
+
                 if (board.transform.position.z + boardSizeZ / 2 < Onde.transform.position.z)
                 {
                     // Recycle the board by moving it to the end of the line
                     float oldPosZ = board.transform.position.z;
                     Destroy(board);
-
-                    // Create a new random board at the end
-                    int rnd = Random.Range(0, electronicBoardPrefab.Length);
                     GameObject newboard = Instantiate(electronicBoardPrefab[rnd], LineParents[line].transform);
                     newboard.transform.localPosition = new Vector3(0f, 0f, oldPosZ + boardSizeZ * electronicBoardOnScene.Length);
                     LinesEBoard[line][eBoard] = newboard;
